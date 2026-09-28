@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Be! 💗</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffe0ec, #ffc2d9, #fff0f5);
+    color: #a83261;
+    min-height: 100vh;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 20px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% { opacity: 0.7; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 650px;
+    margin: auto;
+    padding: 40px 0;
+}
+
+h1 {
+    font-size: clamp(2rem, 7vw, 3rem);
+    color: #d63384;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+/* Envelope */
+.envelope-container {
+    margin: 50px auto 30px;
+    cursor: pointer;
+    width: 230px;
+    height: 160px;
+    position: relative;
+    perspective: 800px;
+}
+
+.envelope {
+    width: 100%;
+    height: 100%;
+    background: #ff8fb1;
+    position: absolute;
+    bottom: 0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px #d6338433;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 115px solid transparent;
+    border-right: 115px solid transparent;
+    border-top: 100px solid #ffb3c9;
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 3;
+}
+
+.envelope::after {
+    content: "💗";
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    z-index: 4;
+}
+
+.envelope-container.open .envelope::before {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.envelope-container.open .envelope::after {
+    display: none;
+}
+
+.letter-preview {
+    position: absolute;
+    width: 85%;
+    height: 90%;
+    left: 7.5%;
+    bottom: 5px;
+    background: #fffafc;
+    border-radius: 5px;
+    transition: transform 1s ease;
+    z-index: 2;
+}
+
+.envelope-container.open .letter-preview {
+    transform: translateY(-110px);
+}
+
+.click-text {
+    margin-top: 20px;
+    font-size: 1rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: 0.5; }
+}
+
+/* Birthday letter */
+.letter {
+    display: none;
+    background: #fffafd;
+    padding: 30px 22px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px #d6338422;
+    margin-top: 40px;
+    animation: appear 1s ease;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.letter.show {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.letter h2 {
+    text-align: center;
+    color: #d63384;
+    margin-bottom: 20px;
+}
+
+.letter p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.signature {
+    text-align: right;
+    color: #d63384;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+/* Photo gallery */
+.gallery {
+    margin-top: 40px;
+}
+
+.gallery h2 {
+    margin-bottom: 20px;
+    color: #d63384;
+}
+
+.photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.photos img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border: 6px solid white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px #d6338422;
+    transition: transform 0.3s;
+}
+
+.photos img:hover {
+    transform: rotate(-2deg) scale(1.04);
+}
+
+.caption {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Buttons */
+button {
+    background: #e75480;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0 5px 15px #d6338433;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #c91865;
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 50px;
+    padding-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .photos img {
+        height: 150px;
+    }
+
+    .letter {
+        padding: 25px 18px;
+    }
+
+    .envelope-container {
+        width: 200px;
+        height: 140px;
+    }
+
+    .envelope::before {
+        border-left-width: 100px;
+        border-right-width: 100px;
+        border-top-width: 90px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Happy Birthday, Be! 🎂</h1>
+    <p class="subtitle">
+        Pasensya na po na late  💕
+    </p>
+
+    <!-- Background music -->
+    <audio id="music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <button onclick="toggleMusic()" id="musicBtn">
+        🎵 Click to play
+    </button>
+
+    <!-- Envelope -->
+    <div class="envelope-container" id="envelope"
+         onclick="openLetter()">
+        <div class="letter-preview"></div>
+        <div class="envelope"></div>
+    </div>
+
+    <p class="click-text" id="clickText">
+        💌 Click the envelope to open your letter 💌
+    </p>
+
+    <!-- Birthday Letter -->
+    <div class="letter" id="letter">
+
+        <h2>To My Dearest Love 💗</h2>
+
+        <p>
+            Happy birthday, be! 🎂💕
+        </p>
+
+        <p>
+            Hello be mag english muna ako ngayon hehe so 
+            today is all about you, the most special person
+            in my life. I just want to remind you how much
+            you mean to me and how grateful I am to have
+            you in my life.
+        </p>
+
+        <p>
+            Thank you for being part of my happiness,
+            for the beautiful memories we've shared,
+            and for all the little moments that make
+            my days better just because of you.
+        </p>
+
+        <p>
+            I hope your birthday is filled with smiles,
+            laughter, love, and everything that makes
+            your heart happy. You deserve all the beautiful
+            things this world has to offer.
+        </p>
+
+        <p>
+            No matter what happens, I hope we continue
+            to grow together, understand each other better,
+            and make more beautiful memories together.
+        </p>
+
+        <p>
+            Always remember that you are loved, appreciated,
+            and special to me. I'm so lucky to call you mine.
+        </p>
+
+        <p>
+            Happy birthday again, my bebe.
+            I love you so much! 💖
+        </p>
+
+        <p class="signature">
+            Forever yours,<br>
+            Your Bebe ❤️
+        </p>
+
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="gallery">
+
+        <h2>Little pics of you 📸</h2>
+
+        <div class="photos">
+
+            <!-- Replace these with your photos -->
+            <img src="photo1.jpg" alt="Our first memory">
+
+            <img src="photo2.jpg" alt="Our special moment">
+
+            <img src="photo3.jpg" alt="A happy memory">
+
+            <img src="photo4.jpg" alt="My favorite person">
+
+        </div>
+
+        <p class="caption">
+            Every moment with you is a memory
+            I want to keep forever. 💕
+        </p>
+
+    </div>
+
+    <button onclick="showSurprise()">
+        One More Surprise 💝
+    </button>
+
+    <p id="surprise"
+       style="display:none; margin-top:20px; font-size:1.2rem;">
+        You are my favorite person, my happiness,
+        and my sweetest blessing. I love you endlessly! 💗
+    </p>
+
+    <footer>
+        Made with love, just for you. 💌
+    </footer>
+
+</div>
+
+<script>
+
+// Create floating hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = ["💗", "💕", "💖", "💘", "❤️"][
+        Math.floor(Math.random() * 5)
+    ];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 10000);
+}
+
+setInterval(createHeart, 500);
+
+// Open the envelope
+function openLetter() {
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const clickText = document.getElementById("clickText");
+
+    envelope.classList.add("open");
+    letter.classList.add("show");
+
+    clickText.innerHTML = "Your letter is open, my love! 💗";
+
+    // Start music when the envelope is clicked
+    const music = document.getElementById("music");
+
+    music.play().then(() => {
+        document.getElementById("musicBtn").innerHTML =
+            "⏸ Pause Our Song";
+    }).catch(() => {
+        // Music can also be started using the music button
+    });
+
+    // Show the letter
+    setTimeout(() => {
+        letter.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }, 500);
+}
+
+// Music play/pause
+function toggleMusic() {
+    const music = document.getElementById("music");
+    const btn = document.getElementById("musicBtn");
+
+    if (music.paused) {
+        music.play().then(() => {
+            btn.innerHTML = "⏸ Click to Pause";
+        }).catch(() => {
+            alert("Please add your music.mp3 file first!");
+        });
+    } else {
+        music.pause();
+        btn.innerHTML = "🎵 Play Our Song";
+    }
+}
+
+// Extra surprise
+function showSurprise() {
+    const surprise = document.getElementById("surprise");
+
+    surprise.style.display = "block";
+
+    surprise.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+</script>
+
+</body>
+</html>
